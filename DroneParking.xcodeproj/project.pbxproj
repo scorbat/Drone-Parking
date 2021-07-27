@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,7 @@
 		8478673326B0606000D402C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8478673226B0606000D402C6 /* Assets.xcassets */; };
 		8478673626B0606000D402C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8478673426B0606000D402C6 /* LaunchScreen.storyboard */; };
 		8478673E26B0889F00D402C6 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8478673D26B0889F00D402C6 /* RootViewController.swift */; };
+		8478674126B08FD300D402C6 /* UIUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8478674026B08FD300D402C6 /* UIUtilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		8478673526B0606000D402C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8478673726B0606000D402C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8478673D26B0889F00D402C6 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		8478674026B08FD300D402C6 /* UIUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUtilities.swift; sourceTree = "<group>"; };
 		A8DC446D39D31AF9FEEB17FF /* Pods-DroneParking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroneParking.release.xcconfig"; path = "Target Support Files/Pods-DroneParking/Pods-DroneParking.release.xcconfig"; sourceTree = "<group>"; };
 		DA5066A19C980F011F46E9E7 /* Pods-DroneParking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroneParking.debug.xcconfig"; path = "Target Support Files/Pods-DroneParking/Pods-DroneParking.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -63,6 +65,7 @@
 		8478672826B0605E00D402C6 /* DroneParking */ = {
 			isa = PBXGroup;
 			children = (
+				8478673F26B08FB000D402C6 /* Services */,
 				8478672926B0605E00D402C6 /* AppDelegate.swift */,
 				8478672B26B0605E00D402C6 /* SceneDelegate.swift */,
 				8478672F26B0605E00D402C6 /* Main.storyboard */,
@@ -74,13 +77,20 @@
 			path = DroneParking;
 			sourceTree = "<group>";
 		};
+		8478673F26B08FB000D402C6 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8478674026B08FD300D402C6 /* UIUtilities.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		AB57464EC91608E4394469AE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
 				DA5066A19C980F011F46E9E7 /* Pods-DroneParking.debug.xcconfig */,
 				A8DC446D39D31AF9FEEB17FF /* Pods-DroneParking.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -208,6 +218,7 @@
 			files = (
 				8478672A26B0605E00D402C6 /* AppDelegate.swift in Sources */,
 				8478672C26B0605E00D402C6 /* SceneDelegate.swift in Sources */,
+				8478674126B08FD300D402C6 /* UIUtilities.swift in Sources */,
 				8478673E26B0889F00D402C6 /* RootViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
