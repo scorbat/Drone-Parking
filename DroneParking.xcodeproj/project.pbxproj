@@ -7,23 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0956E790320F0F4E19EC8B66 /* Pods_DroneParking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 547402F0232CD29022DAE736 /* Pods_DroneParking.framework */; };
 		8478672A26B0605E00D402C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8478672926B0605E00D402C6 /* AppDelegate.swift */; };
 		8478672C26B0605E00D402C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8478672B26B0605E00D402C6 /* SceneDelegate.swift */; };
-		8478672E26B0605E00D402C6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8478672D26B0605E00D402C6 /* ViewController.swift */; };
 		8478673126B0605E00D402C6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8478672F26B0605E00D402C6 /* Main.storyboard */; };
 		8478673326B0606000D402C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8478673226B0606000D402C6 /* Assets.xcassets */; };
 		8478673626B0606000D402C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8478673426B0606000D402C6 /* LaunchScreen.storyboard */; };
+		8478673E26B0889F00D402C6 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8478673D26B0889F00D402C6 /* RootViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		547402F0232CD29022DAE736 /* Pods_DroneParking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DroneParking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8478672626B0605E00D402C6 /* DroneParking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DroneParking.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8478672926B0605E00D402C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8478672B26B0605E00D402C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8478672D26B0605E00D402C6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8478673026B0605E00D402C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8478673226B0606000D402C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8478673526B0606000D402C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8478673726B0606000D402C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8478673D26B0889F00D402C6 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		A8DC446D39D31AF9FEEB17FF /* Pods-DroneParking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroneParking.release.xcconfig"; path = "Target Support Files/Pods-DroneParking/Pods-DroneParking.release.xcconfig"; sourceTree = "<group>"; };
+		DA5066A19C980F011F46E9E7 /* Pods-DroneParking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroneParking.debug.xcconfig"; path = "Target Support Files/Pods-DroneParking/Pods-DroneParking.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0956E790320F0F4E19EC8B66 /* Pods_DroneParking.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +47,8 @@
 			children = (
 				8478672826B0605E00D402C6 /* DroneParking */,
 				8478672726B0605E00D402C6 /* Products */,
+				AB57464EC91608E4394469AE /* Pods */,
+				DE7A0B80D60814F8C56F7A0B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,13 +65,31 @@
 			children = (
 				8478672926B0605E00D402C6 /* AppDelegate.swift */,
 				8478672B26B0605E00D402C6 /* SceneDelegate.swift */,
-				8478672D26B0605E00D402C6 /* ViewController.swift */,
 				8478672F26B0605E00D402C6 /* Main.storyboard */,
 				8478673226B0606000D402C6 /* Assets.xcassets */,
 				8478673426B0606000D402C6 /* LaunchScreen.storyboard */,
 				8478673726B0606000D402C6 /* Info.plist */,
+				8478673D26B0889F00D402C6 /* RootViewController.swift */,
 			);
 			path = DroneParking;
+			sourceTree = "<group>";
+		};
+		AB57464EC91608E4394469AE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DA5066A19C980F011F46E9E7 /* Pods-DroneParking.debug.xcconfig */,
+				A8DC446D39D31AF9FEEB17FF /* Pods-DroneParking.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		DE7A0B80D60814F8C56F7A0B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				547402F0232CD29022DAE736 /* Pods_DroneParking.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +99,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8478673A26B0606000D402C6 /* Build configuration list for PBXNativeTarget "DroneParking" */;
 			buildPhases = (
+				FEEA0A4D4D100341D40E0E03 /* [CP] Check Pods Manifest.lock */,
 				8478672226B0605E00D402C6 /* Sources */,
 				8478672326B0605E00D402C6 /* Frameworks */,
 				8478672426B0605E00D402C6 /* Resources */,
+				47FDFAF40CEFACFAE29FD38B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -132,14 +159,56 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		47FDFAF40CEFACFAE29FD38B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DroneParking/Pods-DroneParking-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DroneParking/Pods-DroneParking-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DroneParking/Pods-DroneParking-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FEEA0A4D4D100341D40E0E03 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DroneParking-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		8478672226B0605E00D402C6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8478672E26B0605E00D402C6 /* ViewController.swift in Sources */,
 				8478672A26B0605E00D402C6 /* AppDelegate.swift in Sources */,
 				8478672C26B0605E00D402C6 /* SceneDelegate.swift in Sources */,
+				8478673E26B0889F00D402C6 /* RootViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +352,7 @@
 		};
 		8478673B26B0606000D402C6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA5066A19C980F011F46E9E7 /* Pods-DroneParking.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -302,6 +372,7 @@
 		};
 		8478673C26B0606000D402C6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A8DC446D39D31AF9FEEB17FF /* Pods-DroneParking.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

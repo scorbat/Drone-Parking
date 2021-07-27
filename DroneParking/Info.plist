@@ -2,6 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UISupportedExternalAccessoryProtocols</key>
+	<array>
+		<string>com.dji.video</string>
+		<string>com.dji.common</string>
+		<string>com.dji.protocol</string>
+	</array>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Bluetooth is required.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>DJISDKAppKey</key>
+	<string>ae122878ab2857e4e38e1355</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
