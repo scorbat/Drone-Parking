@@ -67,17 +67,31 @@
             </objects>
             <point key="canvasLocation" x="1059" y="94"/>
         </scene>
-        <!--View Controller-->
+        <!--Map View Controller-->
         <scene sceneID="1zI-Wy-g38">
             <objects>
-                <viewController id="hGz-Fv-7kQ" sceneMemberID="viewController">
+                <viewController id="hGz-Fv-7kQ" customClass="MapViewController" customModule="DroneParking" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NgI-gC-4J8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="R8l-LI-mxz">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                            </mapView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="1TK-XS-uf1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="R8l-LI-mxz" firstAttribute="top" secondItem="1TK-XS-uf1" secondAttribute="top" id="Cak-qO-Jgb"/>
+                            <constraint firstItem="1TK-XS-uf1" firstAttribute="trailing" secondItem="R8l-LI-mxz" secondAttribute="trailing" id="Siz-gy-u8c"/>
+                            <constraint firstItem="1TK-XS-uf1" firstAttribute="bottom" secondItem="R8l-LI-mxz" secondAttribute="bottom" id="bGY-JP-vt9"/>
+                            <constraint firstItem="R8l-LI-mxz" firstAttribute="leading" secondItem="1TK-XS-uf1" secondAttribute="leading" id="kyo-eV-iAl"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="L9t-ra-R7G"/>
+                    <connections>
+                        <outlet property="mapView" destination="R8l-LI-mxz" id="4Hx-2O-YkR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lz5-MN-qbA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

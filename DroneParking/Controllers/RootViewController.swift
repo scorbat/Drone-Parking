@@ -8,9 +8,6 @@
 import UIKit
 import DJISDK
 
-//controls some UI elements to differ for debugging purposes
-fileprivate let debugMode = true
-
 class RootViewController: UIViewController, DJISDKManagerDelegate {
     
     @IBOutlet weak var statusLabel: UILabel!
@@ -36,7 +33,7 @@ class RootViewController: UIViewController, DJISDKManagerDelegate {
         } else {
             statusLabel.text = "No Product Connected"
             modelLabel.text = "Model: N/A"
-            openButton.isEnabled = debugMode //if debug is on, allow bypassing the root controller
+            openButton.isEnabled = K.DEBUG //if debug is on, allow bypassing the root controller
         }
     }
     
@@ -49,6 +46,7 @@ class RootViewController: UIViewController, DJISDKManagerDelegate {
         }
         
         showAlert(from: self, title: "Register app", message: message)
+        DJISDKManager.startConnectionToProduct()
     }
     
     func didUpdateDatabaseDownloadProgress(_ progress: Progress) {  }
