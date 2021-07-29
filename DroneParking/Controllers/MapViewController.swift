@@ -25,7 +25,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         //create tap gesture for map view
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addWaypoint(tapGesture:)))
         mapView.addGestureRecognizer(tapGesture)
-        
         //enable location updating
         enableLocationTracking()
         //set flight controller delegate
@@ -85,14 +84,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     //MARK: - MKMapViewDelegate methods
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if annotation is MKPointAnnotation {
-            let pin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "waypoint_annotation")
-            return pin
-        } else if annotation is AircraftAnnotation {
+        if annotation.isKind(of: AircraftAnnotation.self) {
             //create custom annotation for aircraft
+            print("I'm aircraft annotation")
             let aircraft = AircraftAnnotationView(annotation: annotation, reuseIdentifier: "aircraft_annotation")
             (annotation as! AircraftAnnotation).annotationView = aircraft
             return aircraft
+        } else if annotation.isKind(of: MKPointAnnotation.self) {
+            print("I'm pin notation")
+            let pin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "waypoint_annotation")
+            return pin
         }
         
         return nil
