@@ -7,14 +7,17 @@
 
 import UIKit
 import MapKit
+import DJISDK
 
-class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, DJIFlightControllerDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
     let mapService = MapService()
     let locationManager = CLLocationManager()
+    
     var userLocation: CLLocationCoordinate2D?
+    var droneLocation: CLLocationCoordinate2D?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +28,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         //enable location updating
         enableLocationTracking()
+        //set flight controller delegate
+        if let flightController = fetchFlightController() {
+            flightController.delegate = self
+        } else {
+            showAlert(from: self, title: "Flight Controller", message: "Flight controller not connected.")
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -43,8 +52,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     //focuses map to user's current location
     func focusMap() {
-        guard let location = userLocation else {
-            print("User Location not valid!")
+        guard let location = droneLocation else {
+            print("Drone Location not valid!")
             return
         }
         
@@ -79,6 +88,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         if annotation is MKPointAnnotation {
             let pin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "waypoint_annotation")
             return pin
+        } else if annotation is AircraftAnnotation {
+            //create custom annotation for aircraft
+            let aircraft = AircraftAnnotationView(annotation: annotation, reuseIdentifier: "aircraft_annotation")
+            (annotation as! AircraftAnnotation).annotationView = aircraft
+            return aircraft
         }
         
         return nil
@@ -88,6 +102,19 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         userLocation = locations.last?.coordinate
+    }
+    
+    //MARK: - DJIFlightControllerDelegate methods
+    
+    func flightController(_ fc: DJIFlightController, didUpdate state: DJIFlightControllerState) {
+        droneLocation = state.aircraftLocation?.coordinate
+        
+        if let location = droneLocation {
+            mapService.updateAircraft(location: location, on: mapView)
+        }
+        
+        let yawRadian = state.attitude.yaw * (Double.pi / 180) //convert to radians
+        mapService.updateAircraft(heading: Float(yawRadian))
     }
 
 }

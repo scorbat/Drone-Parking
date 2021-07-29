@@ -12,6 +12,9 @@ import MapKit
 class MapService: NSObject {
     
     var points = [CLLocation]()
+    var aircraftAnnotation: AircraftAnnotation?
+    
+    //MARK: Annotation methods
     
     func add(point: CGPoint, for mapView: MKMapView) {
         //get coordinate and add it to points list
@@ -29,7 +32,27 @@ class MapService: NSObject {
         points.removeAll()
         
         for annotation in mapView.annotations {
-            mapView.removeAnnotation(annotation)
+            //dont want to remove the aircraft annotation
+            if annotation !== aircraftAnnotation {
+                mapView.removeAnnotation(annotation)
+            }
+        }
+    }
+    
+    //MARK: Aircraft Annotation methods
+    
+    func updateAircraft(location: CLLocationCoordinate2D, on mapView: MKMapView) {
+        if let annotation = aircraftAnnotation {
+            annotation.coordinate = location
+        } else {
+            aircraftAnnotation = AircraftAnnotation(coordinate: location)
+            mapView.addAnnotation(aircraftAnnotation!)
+        }
+    }
+    
+    func updateAircraft(heading: Float) {
+        if let annotation = aircraftAnnotation {
+            annotation.update(heading: heading)
         }
     }
     

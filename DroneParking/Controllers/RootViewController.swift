@@ -46,7 +46,12 @@ class RootViewController: UIViewController, DJISDKManagerDelegate {
         }
         
         showAlert(from: self, title: "Register app", message: message)
-        DJISDKManager.startConnectionToProduct()
+        
+        if K.USE_BRIDGE {
+            DJISDKManager.enableBridgeMode(withBridgeAppIP: K.BRIDGE_IP)
+        } else {
+            DJISDKManager.startConnectionToProduct()
+        }
     }
     
     func didUpdateDatabaseDownloadProgress(_ progress: Progress) {  }

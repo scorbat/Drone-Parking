@@ -18,6 +18,8 @@
 		8478674426B0ADB300D402C6 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8478674326B0ADB300D402C6 /* MapViewController.swift */; };
 		84D71F0A26B1900B0077C0E3 /* MapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D71F0926B1900B0077C0E3 /* MapService.swift */; };
 		84D71F0C26B199370077C0E3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D71F0B26B199370077C0E3 /* Constants.swift */; };
+		84D71F1126B2240A0077C0E3 /* AircraftAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D71F1026B2240A0077C0E3 /* AircraftAnnotationView.swift */; };
+		84D71F1326B3020A0077C0E3 /* DJIUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D71F1226B3020A0077C0E3 /* DJIUtilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		8478674326B0ADB300D402C6 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		84D71F0926B1900B0077C0E3 /* MapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapService.swift; sourceTree = "<group>"; };
 		84D71F0B26B199370077C0E3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		84D71F1026B2240A0077C0E3 /* AircraftAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftAnnotationView.swift; sourceTree = "<group>"; };
+		84D71F1226B3020A0077C0E3 /* DJIUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DJIUtilities.swift; sourceTree = "<group>"; };
 		A8DC446D39D31AF9FEEB17FF /* Pods-DroneParking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroneParking.release.xcconfig"; path = "Target Support Files/Pods-DroneParking/Pods-DroneParking.release.xcconfig"; sourceTree = "<group>"; };
 		DA5066A19C980F011F46E9E7 /* Pods-DroneParking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroneParking.debug.xcconfig"; path = "Target Support Files/Pods-DroneParking/Pods-DroneParking.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,6 +75,7 @@
 		8478672826B0605E00D402C6 /* DroneParking */ = {
 			isa = PBXGroup;
 			children = (
+				84D71F0D26B223DE0077C0E3 /* Views */,
 				8478674226B0AD6800D402C6 /* Controllers */,
 				8478673F26B08FB000D402C6 /* Services */,
 				8478672926B0605E00D402C6 /* AppDelegate.swift */,
@@ -89,6 +94,7 @@
 			children = (
 				8478674026B08FD300D402C6 /* UIUtilities.swift */,
 				84D71F0926B1900B0077C0E3 /* MapService.swift */,
+				84D71F1226B3020A0077C0E3 /* DJIUtilities.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -100,6 +106,14 @@
 				8478674326B0ADB300D402C6 /* MapViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		84D71F0D26B223DE0077C0E3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				84D71F1026B2240A0077C0E3 /* AircraftAnnotationView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		AB57464EC91608E4394469AE /* Pods */ = {
@@ -234,6 +248,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8478672A26B0605E00D402C6 /* AppDelegate.swift in Sources */,
+				84D71F1126B2240A0077C0E3 /* AircraftAnnotationView.swift in Sources */,
+				84D71F1326B3020A0077C0E3 /* DJIUtilities.swift in Sources */,
 				8478672C26B0605E00D402C6 /* SceneDelegate.swift in Sources */,
 				84D71F0A26B1900B0077C0E3 /* MapService.swift in Sources */,
 				8478674126B08FD300D402C6 /* UIUtilities.swift in Sources */,
