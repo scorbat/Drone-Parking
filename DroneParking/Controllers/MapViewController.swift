@@ -12,12 +12,15 @@ import DJISDK
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, DJIFlightControllerDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var editButton: UIButton!
     
     let mapService = MapService()
     let locationManager = CLLocationManager()
     
+    var isEditingPoints = false
     var userLocation: CLLocationCoordinate2D?
     var droneLocation: CLLocationCoordinate2D?
+    var waypointMission: DJIMutableWaypointMission?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +46,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     //MARK: - My methods
     
     @objc func addWaypoint(tapGesture: UITapGestureRecognizer) {
-        if tapGesture.state == .ended {
+        if tapGesture.state == .ended && isEditingPoints {
             let point = tapGesture.location(in: mapView)
             mapService.add(point: point, for: mapView)
         }
@@ -75,10 +78,99 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
+    func loadMission() {
+        //add locations to waypoint mission
+        let waypoints = mapService.points
+        if waypoints.count < 2 {
+            showAlert(from: self, title: "Load Mission", message: "Not enough waypoints for mission")
+            return
+        }
+        
+        //reset or create mission
+        if let mission = waypointMission {
+            mission.removeAllWaypoints()
+        } else {
+            waypointMission = DJIMutableWaypointMission()
+        }
+        
+        //set mission parameters
+        waypointMission!.autoFlightSpeed = 8
+        waypointMission!.maxFlightSpeed = 10
+        waypointMission!.headingMode = .auto
+        waypointMission!.finishedAction = .noAction
+        
+        for location in waypoints {
+            if CLLocationCoordinate2DIsValid(location.coordinate) {
+                let waypoint = DJIWaypoint(coordinate: location.coordinate)
+                waypoint.altitude = 20
+                waypointMission!.add(waypoint)
+            }
+        }
+        
+        //load and upload mission
+        let missionOperator = fetchMissionOperator()
+        //LOAD MISSION can return error
+        if let error = missionOperator?.load(waypointMission!) {
+            showAlert(from: self, title: "Mission load fail", message: error.localizedDescription)
+            return
+        }
+        
+        missionOperator?.addListener(toFinished: self, with: .main, andBlock: { error in
+            if let error = error {
+                showAlert(from: self, title: "Mission execution fail", message: error.localizedDescription)
+            } else {
+                showAlert(from: self, title: "Mission execution finished", message: nil)
+            }
+        })
+        
+        missionOperator?.uploadMission(completion: { error in
+            if let error = error {
+                showAlert(from: self, title: "Mission upload fail", message: error.localizedDescription)
+            } else {
+                showAlert(from: self, title: "Mission upload success", message: nil)
+            }
+        })
+    }
+    
     //MARK: - IBActions
     
     @IBAction func focusPressed(_ sender: UIButton) {
         focusMap()
+    }
+    
+    @IBAction func editPressed(_ sender: UIButton) {
+        isEditingPoints.toggle()
+        //update button text
+        editButton.setTitle(isEditingPoints ? "Finish" : "Edit", for: .normal)
+    }
+    
+    @IBAction func clearPressed(_ sender: UIButton) {
+        mapService.cleanPoints(in: mapView)
+    }
+    
+    @IBAction func loadPressed(_ sender: UIButton) {
+        loadMission()
+    }
+    
+    @IBAction func startPressed(_ sender: UIButton) {
+        //start the mission
+        fetchMissionOperator()?.startMission(completion: { error in
+            if let error = error {
+                showAlert(from: self, title: "Start Mission", message: "Mission start failed, \(error.localizedDescription)")
+            } else {
+                showAlert(from: self, title: "Start Mission", message: "Mission start success")
+            }
+        })
+    }
+    
+    @IBAction func stopPressed(_ sender: UIButton) {
+        fetchMissionOperator()?.stopMission(completion: { error in
+            if let error = error {
+                showAlert(from: self, title: "Stop Mission", message: "Mission stop failed, \(error.localizedDescription)")
+            } else {
+                showAlert(from: self, title: "Stop Mission", message: "Mission stop success")
+            }
+        })
     }
     
     //MARK: - MKMapViewDelegate methods
@@ -86,12 +178,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation.isKind(of: AircraftAnnotation.self) {
             //create custom annotation for aircraft
-            print("I'm aircraft annotation")
             let aircraft = AircraftAnnotationView(annotation: annotation, reuseIdentifier: "aircraft_annotation")
             (annotation as! AircraftAnnotation).annotationView = aircraft
             return aircraft
         } else if annotation.isKind(of: MKPointAnnotation.self) {
-            print("I'm pin notation")
             let pin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "waypoint_annotation")
             return pin
         }

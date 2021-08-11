@@ -12,7 +12,7 @@ struct K {
     //controls some UI elements for debugging use
     static let DEBUG = true
     static let USE_BRIDGE = true
-    static let BRIDGE_IP = "192.168.0.22"
+    static let BRIDGE_IP = "192.168.0.29"
     
     static let AIRCRAFT_IMAGE_NAME = "aircraft_icon"
     static let AIRCRAFT_IMAGE_ROTATION_OFFSET: Float = 0

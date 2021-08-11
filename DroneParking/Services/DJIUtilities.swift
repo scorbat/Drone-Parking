@@ -12,3 +12,7 @@ import DJISDK
 func fetchFlightController() -> DJIFlightController? {
     return (DJISDKManager.product() as? DJIAircraft)?.flightController
 }
+
+func fetchMissionOperator() -> DJIWaypointMissionOperator? {
+    return DJISDKManager.missionControl()?.waypointMissionOperator()
+}
