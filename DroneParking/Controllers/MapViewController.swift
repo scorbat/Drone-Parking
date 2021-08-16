@@ -17,10 +17,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     let mapService = MapService()
     let locationManager = CLLocationManager()
     
+    var isSimulating = false
+    
     var isEditingPoints = false
     var userLocation: CLLocationCoordinate2D?
     var droneLocation: CLLocationCoordinate2D?
     var waypointMission: DJIMutableWaypointMission?
+    
+    var missionRunning = false
+    var waypointPointer = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,30 +111,58 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 waypointMission!.add(waypoint)
             }
         }
-        
-        //load and upload mission
-        let missionOperator = fetchMissionOperator()
-        //LOAD MISSION can return error
-        if let error = missionOperator?.load(waypointMission!) {
-            showAlert(from: self, title: "Mission load fail", message: error.localizedDescription)
-            return
+    }
+    
+    func generateFlightData() -> DJIVirtualStickFlightControlData? {
+        guard let currentLocation = droneLocation, let dest = waypointMission?.waypoint(at: UInt(waypointPointer)) else {
+            return nil
         }
         
-        missionOperator?.addListener(toFinished: self, with: .main, andBlock: { error in
-            if let error = error {
-                showAlert(from: self, title: "Mission execution fail", message: error.localizedDescription)
-            } else {
-                showAlert(from: self, title: "Mission execution finished", message: nil)
-            }
-        })
+        //TODO: temporary constant
+        let SPEED = 8.0
         
-        missionOperator?.uploadMission(completion: { error in
-            if let error = error {
-                showAlert(from: self, title: "Mission upload fail", message: error.localizedDescription)
-            } else {
-                showAlert(from: self, title: "Mission upload success", message: nil)
-            }
-        })
+        let longitudeDelta = dest.coordinate.longitude - currentLocation.longitude
+        let latitudeDelta = dest.coordinate.latitude - currentLocation.latitude
+        
+        if K.DEBUG {
+            print("Generate flight data::")
+            print("Latitude Delta: \(latitudeDelta)")
+            print("Longitude Delta: \(longitudeDelta)")
+        }
+        
+        //booleans to determine if these directions are needed
+        let longitudeDone = abs(longitudeDelta) < 0.000002
+        let latitudeDone = abs(latitudeDelta) < 0.000002
+        
+        //pythagorean math (want hypotenuse velocity to be SPEED)
+        let angle = atan(latitudeDelta / longitudeDelta)
+        //calculate needed velocities
+        var longitudeVelocity = 0.0
+        var latitudeVelocity = 0.0
+        
+        if !longitudeDone {
+            //determine if positive or negative velocity is needed
+            longitudeVelocity = longitudeDelta < 0 ? SPEED : -SPEED
+        }
+        
+        if !latitudeDone {
+            latitudeVelocity = latitudeDelta < 0 ? SPEED : -SPEED
+        }
+        
+        if K.DEBUG {
+            print("Angle: \(angle)")
+            print("Longitude Velocity: \(longitudeVelocity)")
+            print("Latitude Velocity: \(latitudeVelocity)")
+        }
+        
+        let controlData = DJIVirtualStickFlightControlData(
+            pitch: Float(longitudeVelocity),
+            roll: Float(latitudeVelocity),
+            yaw: Float(angle),
+            verticalThrottle: 0
+        )
+        
+        return controlData
     }
     
     //MARK: - IBActions
@@ -146,6 +179,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     @IBAction func clearPressed(_ sender: UIButton) {
         mapService.cleanPoints(in: mapView)
+        waypointMission?.removeAllWaypoints()
     }
     
     @IBAction func loadPressed(_ sender: UIButton) {
@@ -153,24 +187,59 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     @IBAction func startPressed(_ sender: UIButton) {
-        //start the mission
-        fetchMissionOperator()?.startMission(completion: { error in
+        fetchFlightController()?.setVirtualStickModeEnabled(true) { error in
             if let error = error {
-                showAlert(from: self, title: "Start Mission", message: "Mission start failed, \(error.localizedDescription)")
-            } else {
-                showAlert(from: self, title: "Start Mission", message: "Mission start success")
+                showAlert(from: self, title: "Virtual Stick failed", message: error.localizedDescription)
             }
-        })
+        }
+        
+        missionRunning = true
+        showAlert(from: self, title: "Mission started", message: nil)
     }
     
     @IBAction func stopPressed(_ sender: UIButton) {
-        fetchMissionOperator()?.stopMission(completion: { error in
-            if let error = error {
-                showAlert(from: self, title: "Stop Mission", message: "Mission stop failed, \(error.localizedDescription)")
-            } else {
-                showAlert(from: self, title: "Stop Mission", message: "Mission stop success")
-            }
+        fetchFlightController()?.setVirtualStickModeEnabled(false, withCompletion: nil)
+        
+        missionRunning = false
+        showAlert(from: self, title: "Mission stopped", message: nil)
+    }
+    
+    @IBAction func takeoffPressed(_ sender: UIButton) {
+        fetchFlightController()?.startTakeoff(completion: { error in
+            let title = "Start Takeoff \(error == nil ? "Success" : "Failed")"
+            showAlert(from: self, title: title, message: error?.localizedDescription)
         })
+    }
+    
+    @IBAction func simulatorPressed(_ sender: UIBarButtonItem) {
+        guard let fc = fetchFlightController() else {
+            showAlert(from: self, title: "Flight controller not found", message: nil)
+            return
+        }
+        
+        if isSimulating {
+            fc.simulator?.stop(completion: { error in
+                var status = "Success"
+                if let _ = error {
+                    status = "Failed"
+                } else {
+                    self.isSimulating = false
+                }
+                
+                showAlert(from: self, title: "Stop Simulator \(status)", message: error?.localizedDescription)
+            })
+        } else {
+            fc.simulator?.start(withLocation: K.HOME_LOCATION, updateFrequency: 20, gpsSatellitesNumber: 10, withCompletion: { error in
+                var status = "Success"
+                if let _ = error {
+                    status = "Failed"
+                } else {
+                    self.isSimulating = true
+                }
+                
+                showAlert(from: self, title: "Start Simulator \(status)", message: error?.localizedDescription)
+            })
+        }
     }
     
     //MARK: - MKMapViewDelegate methods
@@ -200,12 +269,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     func flightController(_ fc: DJIFlightController, didUpdate state: DJIFlightControllerState) {
         droneLocation = state.aircraftLocation?.coordinate
         
+        //update aircraft location and heading on map
         if let location = droneLocation {
             mapService.updateAircraft(location: location, on: mapView)
         }
         
         let yawRadian = state.attitude.yaw * (Double.pi / 180) //convert to radians
         mapService.updateAircraft(heading: Float(yawRadian))
+        
+        //generate data for mission
+        if missionRunning, let flightData = generateFlightData() {
+            fc.send(flightData, withCompletion: nil)
+        }
     }
 
 }

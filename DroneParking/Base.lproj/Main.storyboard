@@ -144,6 +144,17 @@
                                     <constraint firstAttribute="height" constant="110" id="Ayt-Sf-pDB"/>
                                 </constraints>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KrL-RT-J4G">
+                                <rect key="frame" x="346" y="817" width="51" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Takeoff">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="takeoffPressed:" destination="hGz-Fv-7kQ" eventType="touchUpInside" id="6b6-cI-pmm"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="1TK-XS-uf1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -157,7 +168,13 @@
                             <constraint firstItem="R8l-LI-mxz" firstAttribute="leading" secondItem="1TK-XS-uf1" secondAttribute="leading" id="kyo-eV-iAl"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="L9t-ra-R7G"/>
+                    <navigationItem key="navigationItem" id="L9t-ra-R7G">
+                        <barButtonItem key="rightBarButtonItem" title="Start Sim" id="Xjx-hO-ddU">
+                            <connections>
+                                <action selector="simulatorPressed:" destination="hGz-Fv-7kQ" id="xRL-Rf-4H7"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="editButton" destination="03W-Sv-3bQ" id="ZwY-34-cNp"/>
                         <outlet property="mapView" destination="R8l-LI-mxz" id="4Hx-2O-YkR"/>
