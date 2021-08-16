@@ -155,6 +155,39 @@
                                     <action selector="takeoffPressed:" destination="hGz-Fv-7kQ" eventType="touchUpInside" id="6b6-cI-pmm"/>
                                 </connections>
                             </button>
+                            <stackView opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="38" translatesAutoresizingMaskIntoConstraints="NO" id="ac5-EU-8NU">
+                                <rect key="frame" x="268" y="350" width="100" height="196"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flying:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5J7-Gh-9Ft">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="x:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9V-X5-la7">
+                                        <rect key="frame" x="0.0" y="58.5" width="13.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="y:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GLt-uA-h28">
+                                        <rect key="frame" x="0.0" y="117" width="13.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="z:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WII-JD-pbw">
+                                        <rect key="frame" x="0.0" y="175.5" width="13.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="DM7-3s-5Gd"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="1TK-XS-uf1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -162,8 +195,10 @@
                             <constraint firstItem="R8l-LI-mxz" firstAttribute="top" secondItem="1TK-XS-uf1" secondAttribute="top" id="Cak-qO-Jgb"/>
                             <constraint firstItem="RIf-Uh-qLc" firstAttribute="leading" secondItem="1TK-XS-uf1" secondAttribute="leading" id="D0j-bF-siM"/>
                             <constraint firstItem="RIf-Uh-qLc" firstAttribute="top" secondItem="1TK-XS-uf1" secondAttribute="top" id="Dle-rj-1dZ"/>
+                            <constraint firstItem="1TK-XS-uf1" firstAttribute="trailing" secondItem="ac5-EU-8NU" secondAttribute="trailing" constant="46" id="SW8-4K-wlp"/>
                             <constraint firstItem="1TK-XS-uf1" firstAttribute="trailing" secondItem="R8l-LI-mxz" secondAttribute="trailing" id="Siz-gy-u8c"/>
                             <constraint firstItem="1TK-XS-uf1" firstAttribute="bottom" secondItem="R8l-LI-mxz" secondAttribute="bottom" id="bGY-JP-vt9"/>
+                            <constraint firstItem="ac5-EU-8NU" firstAttribute="centerY" secondItem="NgI-gC-4J8" secondAttribute="centerY" id="cgM-Ny-wEQ"/>
                             <constraint firstItem="1TK-XS-uf1" firstAttribute="trailing" secondItem="RIf-Uh-qLc" secondAttribute="trailing" id="gLa-6Z-gqu"/>
                             <constraint firstItem="R8l-LI-mxz" firstAttribute="leading" secondItem="1TK-XS-uf1" secondAttribute="leading" id="kyo-eV-iAl"/>
                         </constraints>
@@ -177,12 +212,18 @@
                     </navigationItem>
                     <connections>
                         <outlet property="editButton" destination="03W-Sv-3bQ" id="ZwY-34-cNp"/>
+                        <outlet property="flyingLabel" destination="5J7-Gh-9Ft" id="taA-3j-tSR"/>
                         <outlet property="mapView" destination="R8l-LI-mxz" id="4Hx-2O-YkR"/>
+                        <outlet property="simulatorButton" destination="Xjx-hO-ddU" id="Rok-R5-y1E"/>
+                        <outlet property="simulatorPanel" destination="ac5-EU-8NU" id="jHI-A5-0aT"/>
+                        <outlet property="xLabel" destination="E9V-X5-la7" id="Tmm-cF-Zia"/>
+                        <outlet property="yLabel" destination="GLt-uA-h28" id="rbI-Ob-puc"/>
+                        <outlet property="zLabel" destination="WII-JD-pbw" id="3tB-lJ-rmr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lz5-MN-qbA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2068" y="94"/>
+            <point key="canvasLocation" x="2066.666666666667" y="93.75"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="cFF-RL-WBV">

@@ -9,13 +9,18 @@ import UIKit
 import MapKit
 import DJISDK
 
-class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, DJIFlightControllerDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, DJIFlightControllerDelegate, DJISimulatorDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var simulatorButton: UIBarButtonItem!
+    @IBOutlet weak var simulatorPanel: UIStackView!
+    @IBOutlet weak var flyingLabel: UILabel!
+    @IBOutlet weak var xLabel: UILabel!
+    @IBOutlet weak var yLabel: UILabel!
+    @IBOutlet weak var zLabel: UILabel!
     
     let mapService = MapService()
-    let locationManager = CLLocationManager()
     
     var isSimulating = false
     
@@ -29,23 +34,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateUI()
         
         //create tap gesture for map view
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addWaypoint(tapGesture:)))
         mapView.addGestureRecognizer(tapGesture)
-        //enable location updating
-        enableLocationTracking()
         //set flight controller delegate
         if let flightController = fetchFlightController() {
             flightController.delegate = self
+            flightController.simulator?.delegate = self
         } else {
             showAlert(from: self, title: "Flight Controller", message: "Flight controller not connected.")
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        locationManager.stopUpdatingLocation()
     }
     
     //MARK: - My methods
@@ -68,18 +68,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             let span = MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001)
             let region = MKCoordinateRegion(center: location, span: span)
             mapView.setRegion(region, animated: true)
-        }
-    }
-    
-    func enableLocationTracking() {
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.distanceFilter = 0.1
-            locationManager.requestAlwaysAuthorization()
-            locationManager.startUpdatingLocation()
-        } else {
-            showAlert(from: self, title: "Location Service", message: "Location is not enabled")
         }
     }
     
@@ -165,6 +153,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         return controlData
     }
     
+    func updateUI() {
+        simulatorPanel.isHidden = !isSimulating
+        simulatorButton.title = isSimulating ? "Stop Sim" : "Start Sim"
+    }
+    
     //MARK: - IBActions
     
     @IBAction func focusPressed(_ sender: UIButton) {
@@ -224,6 +217,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     status = "Failed"
                 } else {
                     self.isSimulating = false
+                    self.updateUI()
                 }
                 
                 showAlert(from: self, title: "Stop Simulator \(status)", message: error?.localizedDescription)
@@ -235,6 +229,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     status = "Failed"
                 } else {
                     self.isSimulating = true
+                    self.updateUI()
                 }
                 
                 showAlert(from: self, title: "Start Simulator \(status)", message: error?.localizedDescription)
@@ -258,12 +253,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         return nil
     }
     
-    //MARK: - CLLocationManagerDelegate methods
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        userLocation = locations.last?.coordinate
-    }
-    
     //MARK: - DJIFlightControllerDelegate methods
     
     func flightController(_ fc: DJIFlightController, didUpdate state: DJIFlightControllerState) {
@@ -281,6 +270,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         if missionRunning, let flightData = generateFlightData() {
             fc.send(flightData, withCompletion: nil)
         }
+    }
+    
+    //MARK: - DJISimulatorDelegate methods
+    
+    func simulator(_ simulator: DJISimulator, didUpdate state: DJISimulatorState) {
+        flyingLabel.text = "\(state.isFlying)"
+        xLabel.text = "x: \(state.positionX)"
+        yLabel.text = "y: \(state.positionY)"
+        zLabel.text = "z: \(state.positionZ)"
     }
 
 }
