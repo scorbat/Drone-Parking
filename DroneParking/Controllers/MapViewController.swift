@@ -21,16 +21,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, DJIFlightControlle
     @IBOutlet weak var zLabel: UILabel!
     
     let mapService = MapService()
+    let flightService = FlightService()
     
     var isSimulating = false
-    
     var isEditingPoints = false
-    var userLocation: CLLocationCoordinate2D?
+    
     var droneLocation: CLLocationCoordinate2D?
-    var waypointMission: DJIMutableWaypointMission?
     
     var missionRunning = false
-    var waypointPointer = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,77 +78,25 @@ class MapViewController: UIViewController, MKMapViewDelegate, DJIFlightControlle
         }
         
         //reset or create mission
-        if let mission = waypointMission {
+        if let mission = flightService.waypointMission {
             mission.removeAllWaypoints()
         } else {
-            waypointMission = DJIMutableWaypointMission()
+            flightService.waypointMission = DJIMutableWaypointMission()
         }
         
         //set mission parameters
-        waypointMission!.autoFlightSpeed = 8
-        waypointMission!.maxFlightSpeed = 10
-        waypointMission!.headingMode = .auto
-        waypointMission!.finishedAction = .noAction
+        flightService.waypointMission!.autoFlightSpeed = 8
+        flightService.waypointMission!.maxFlightSpeed = 10
+        flightService.waypointMission!.headingMode = .auto
+        flightService.waypointMission!.finishedAction = .noAction
         
         for location in waypoints {
             if CLLocationCoordinate2DIsValid(location.coordinate) {
                 let waypoint = DJIWaypoint(coordinate: location.coordinate)
                 waypoint.altitude = 20
-                waypointMission!.add(waypoint)
+                flightService.waypointMission!.add(waypoint)
             }
         }
-    }
-    
-    func generateFlightData() -> DJIVirtualStickFlightControlData? {
-        guard let currentLocation = droneLocation, let dest = waypointMission?.waypoint(at: UInt(waypointPointer)) else {
-            return nil
-        }
-        
-        //TODO: temporary constant
-        let SPEED = 8.0
-        
-        let longitudeDelta = dest.coordinate.longitude - currentLocation.longitude
-        let latitudeDelta = dest.coordinate.latitude - currentLocation.latitude
-        
-        if K.DEBUG {
-            print("Generate flight data::")
-            print("Latitude Delta: \(latitudeDelta)")
-            print("Longitude Delta: \(longitudeDelta)")
-        }
-        
-        //booleans to determine if these directions are needed
-        let longitudeDone = abs(longitudeDelta) < 0.000002
-        let latitudeDone = abs(latitudeDelta) < 0.000002
-        
-        //pythagorean math (want hypotenuse velocity to be SPEED)
-        let angle = atan(latitudeDelta / longitudeDelta)
-        //calculate needed velocities
-        var longitudeVelocity = 0.0
-        var latitudeVelocity = 0.0
-        
-        if !longitudeDone {
-            //determine if positive or negative velocity is needed
-            longitudeVelocity = longitudeDelta < 0 ? SPEED : -SPEED
-        }
-        
-        if !latitudeDone {
-            latitudeVelocity = latitudeDelta < 0 ? SPEED : -SPEED
-        }
-        
-        if K.DEBUG {
-            print("Angle: \(angle)")
-            print("Longitude Velocity: \(longitudeVelocity)")
-            print("Latitude Velocity: \(latitudeVelocity)")
-        }
-        
-        let controlData = DJIVirtualStickFlightControlData(
-            pitch: Float(longitudeVelocity),
-            roll: Float(latitudeVelocity),
-            yaw: Float(angle),
-            verticalThrottle: 0
-        )
-        
-        return controlData
     }
     
     func updateUI() {
@@ -172,7 +118,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, DJIFlightControlle
     
     @IBAction func clearPressed(_ sender: UIButton) {
         mapService.cleanPoints(in: mapView)
-        waypointMission?.removeAllWaypoints()
+        flightService.waypointMission?.removeAllWaypoints()
     }
     
     @IBAction func loadPressed(_ sender: UIButton) {
@@ -257,17 +203,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, DJIFlightControlle
     
     func flightController(_ fc: DJIFlightController, didUpdate state: DJIFlightControllerState) {
         droneLocation = state.aircraftLocation?.coordinate
+        guard let location = droneLocation else {
+            return
+        }
         
         //update aircraft location and heading on map
-        if let location = droneLocation {
-            mapService.updateAircraft(location: location, on: mapView)
-        }
+        mapService.updateAircraft(location: location, on: mapView)
         
         let yawRadian = state.attitude.yaw * (Double.pi / 180) //convert to radians
         mapService.updateAircraft(heading: Float(yawRadian))
         
         //generate data for mission
-        if missionRunning, let flightData = generateFlightData() {
+        if missionRunning, let flightData = flightService.generateFlightData(at: location) {
             fc.send(flightData, withCompletion: nil)
         }
     }

@@ -12,7 +12,8 @@ import MapKit
 
 class AircraftAnnotation: NSObject, MKAnnotation {
     
-    var coordinate: CLLocationCoordinate2D
+    //must be marked as dynamic for annotation to move
+    @objc dynamic var coordinate: CLLocationCoordinate2D
     var annotationView: AircraftAnnotationView?
     
     init(coordinate: CLLocationCoordinate2D) {

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0956E790320F0F4E19EC8B66 /* Pods_DroneParking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 547402F0232CD29022DAE736 /* Pods_DroneParking.framework */; };
+		8422415026D53A54009F200F /* FlightService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8422414F26D53A54009F200F /* FlightService.swift */; };
 		8478672A26B0605E00D402C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8478672926B0605E00D402C6 /* AppDelegate.swift */; };
 		8478672C26B0605E00D402C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8478672B26B0605E00D402C6 /* SceneDelegate.swift */; };
 		8478673126B0605E00D402C6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8478672F26B0605E00D402C6 /* Main.storyboard */; };
@@ -24,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		547402F0232CD29022DAE736 /* Pods_DroneParking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DroneParking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8422414F26D53A54009F200F /* FlightService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightService.swift; sourceTree = "<group>"; };
 		8478672626B0605E00D402C6 /* DroneParking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DroneParking.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8478672926B0605E00D402C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8478672B26B0605E00D402C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				8478674026B08FD300D402C6 /* UIUtilities.swift */,
 				84D71F0926B1900B0077C0E3 /* MapService.swift */,
 				84D71F1226B3020A0077C0E3 /* DJIUtilities.swift */,
+				8422414F26D53A54009F200F /* FlightService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -256,6 +259,7 @@
 				84D71F0C26B199370077C0E3 /* Constants.swift in Sources */,
 				8478674426B0ADB300D402C6 /* MapViewController.swift in Sources */,
 				8478673E26B0889F00D402C6 /* RootViewController.swift in Sources */,
+				8422415026D53A54009F200F /* FlightService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
